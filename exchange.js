@@ -10,32 +10,25 @@
     const text = edit.value;
 
     // ②URLエンコード
-    const encodedText = encodeURIComponent(text);
+    const encodedText = encodeURI(text);
     
     // ③クリップボードにコピーする
-    const ret = setClipboard(encodedText);
-
-    // ④チェックボックスにチェックがあればアラートを出す
-    if (chk.checked === true) {
-      if (ret === true) {
-        alert(`クリップボードに#{encodedText}をコピーしました！`);
-      }
-      else {
-        alert(`クリップボードにコピーするのに失敗しました!!`);
-      }
-    }
+    copyToClipboard(encodedText, chk.checked);
   }
 
   // クリップボードにコピー
-  function setClipboard(text) {
-    let ret;
-    navigator.clipboard.writeText(text).then(function() {
-      /* clipboard successfully set */
-      ret = true;
-    }, function() {
-      /* clipboard write failed */
-      ret = false;
-    });
+  async function copyToClipboard(text, check) {
+    let ret = true;
+    try {
+      await navigator.clipboard.writeText(text);
+
+      // ④チェックボックスにチェックがあればアラートを出す
+      if (check)
+        alert(`クリップボードに\n${text}\nをコピーしました！`);
+    }
+    catch (error) {
+      alert((error && error.message) || 'クリップボードの操作に失敗しました');
+    }
     return ret;
   }
   
