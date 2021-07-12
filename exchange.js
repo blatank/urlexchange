@@ -13,23 +13,30 @@
     const encodedText = encodeURI(text);
     
     // ③クリップボードにコピーする
-    copyToClipboard(encodedText, chk.checked);
+    // copyToClipboard(encodedText, chk.checked);
+    navigator.clipboard.writeText(encodedText).then(function() {
+      if (chk.checked) {
+        alert(`クリップボードに\n${encodedText}\nをコピーしました！`);
+      }
+    }, function() {
+      alert('クリップボードの操作に失敗しました');
+    });
   }
 
   // クリップボードにコピー
-  async function copyToClipboard(text, check) {
-    let ret = true;
-    try {
-      await navigator.clipboard.writeText(text);
+  // async function copyToClipboard(text, check) {
+  //   let ret = true;
+  //   try {
+  //     await navigator.clipboard.writeText(text);
 
-      // ④チェックボックスにチェックがあればアラートを出す
-      if (check)
-        alert(`クリップボードに\n${text}\nをコピーしました！`);
-    }
-    catch (error) {
-      alert((error && error.message) || 'クリップボードの操作に失敗しました');
-    }
-    return ret;
-  }
+  //     // ④チェックボックスにチェックがあればアラートを出す
+  //     if (check)
+  //       alert(`クリップボードに\n${text}\nをコピーしました！`);
+  //   }
+  //   catch (error) {
+  //     alert((error && error.message) || 'クリップボードの操作に失敗しました');
+  //   }
+  //   return ret;
+  // }
   
 })();
